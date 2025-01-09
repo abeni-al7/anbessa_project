@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import generics, status, viewsets
 from rest_framework.response import Response
+from rest_framework.permissions import IsAdminUser, AllowAny
 from .serializers import (
     PasswordResetSerializer,
     SetNewPasswordSerializer,
@@ -18,6 +19,18 @@ User = get_user_model()
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+    def get_permissions(self):
+        """
+        Assign permissions based on action.
+        - AllowAny for 'create' (POST) to enable user registration.
+        - IsAdminUser for all other actions.
+        """
+        if self.action == 'create':
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAdminUser]
+        return [permission() for permission in permission_classes]
 
 
 class PasswordResetView(generics.GenericAPIView):
