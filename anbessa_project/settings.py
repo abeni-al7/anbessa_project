@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-ko-c*fyius#wo2f2+r&=1=5nnm&toi&pcfxea344##3^8+3q64
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -44,9 +44,11 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "rest_framework_simplejwt",
     "drf_spectacular_sidecar",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -149,3 +151,5 @@ SPECTACULAR_SETTINGS = {
 }
 
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+CORS_ALLOW_ALL_ORIGINS = True
